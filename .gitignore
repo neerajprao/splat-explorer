@@ -1,0 +1,27 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local config and data
+.env
+data/
+tools/
+
+# macOS
+.DS_Store
+
+# Unity (generated)
+unity/SplatViewer/[Ll]ibrary/
+unity/SplatViewer/[Tt]emp/
+unity/SplatViewer/[Oo]bj/
+unity/SplatViewer/[Ll]ogs/
+unity/SplatViewer/[Bb]uild/
+unity/SplatViewer/[Bb]uilds/
+unity/SplatViewer/[Uu]ser[Ss]ettings/
+unity/SplatViewer/*.csproj
+unity/SplatViewer/*.sln
+unity/SplatViewer/.vs/
+unity/SplatViewer/.vscode/
+unity/SplatViewer/.idea/

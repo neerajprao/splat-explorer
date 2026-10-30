@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Splat Explorer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true"></span>
+      <div>
+        <h1>Splat Explorer</h1>
+        <p class="sub">Video &rarr; Gaussian splat &rarr; walk through it in Unity. Runs on this Mac.</p>
+      </div>
+    </div>
+    <div id="health" class="health" aria-live="polite"></div>
+  </header>
+
+  <main class="layout">
+    <section class="col">
+      <div class="card">
+        <h2>New scene</h2>
+        <form id="upload-form">
+          <label class="drop" id="drop">
+            <input type="file" id="file" accept="video/mp4,video/quicktime,.mp4,.mov,.m4v" hidden>
+            <span class="drop-title">Drop a video here or click to choose</span>
+            <span class="drop-hint">MP4 or MOV &middot; 10 s to 10 min &middot; 1080p or 4K</span>
+          </label>
+          <video id="preview" class="preview" controls playsinline hidden></video>
+          <div class="row">
+            <label class="field">
+              <span>Name</span>
+              <input type="text" id="name" placeholder="e.g. Bedroom" maxlength="80">
+            </label>
+            <label class="field">
+              <span>Quality</span>
+              <select id="quality">
+                <option value="preview">Preview (fast check)</option>
+                <option value="standard" selected>Standard</option>
+                <option value="high">High (slow)</option>
+              </select>
+            </label>
+          </div>
+          <label class="check">
+            <input type="checkbox" id="auto-start" checked>
+            <span>Start reconstruction right after upload</span>
+          </label>
+          <div class="progress" id="upload-progress" hidden><div></div></div>
+          <p class="form-msg" id="form-msg" role="status"></p>
+          <button type="submit" class="btn primary" id="upload-btn" disabled>Upload</button>
+        </form>
+      </div>
+
+      <details class="card tips" open>
+        <summary><h2>How to record a good video</h2></summary>
+        <ul>
+          <li><b>Walk slowly</b> and keep moving through the space; don't just turn on the spot.</li>
+          <li>Go around the room <b>facing inward</b>, then again <b>facing the walls</b>, at two heights.</li>
+          <li>Keep <b>lighting constant</b>: all lights on, blinds closed against direct sun.</li>
+          <li><b>Nothing moving</b>: no people, pets, TVs or fans in view.</li>
+          <li>Avoid filming mirrors and glass head-on; include furniture and corners in plain walls.</li>
+          <li>1&ndash;2 min for a bedroom or office, 2&ndash;4 min for a larger room. End where you started.</li>
+          <li>Anything the camera never saw (under the bed, behind the sofa) <b>cannot</b> appear in 3D.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="col wide">
+      <div class="list-head">
+        <h2>Scenes</h2>
+        <button class="btn ghost small" id="refresh">Refresh</button>
+      </div>
+      <div id="jobs" class="jobs">
+        <p class="empty">No scenes yet. Upload a video to start.</p>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="explore">
+    <form method="dialog" class="dialog">
+      <h2 id="explore-title">Explore</h2>
+      <p>The scene opens in the <b>SplatViewer</b> Unity app (see <code>unity/README.md</code>).</p>
+      <ol>
+        <li><a class="btn primary" id="deep-link" href="#">Open in SplatViewer</a>
+          <span class="muted">works once the viewer app is built and its URL scheme is set</span></li>
+        <li>Or run in Terminal: <code id="open-cmd"></code> <button type="button" class="btn ghost small" id="copy-cmd">Copy</button></li>
+        <li>Or open the viewer and pick the scene from its list.</li>
+      </ol>
+      <p class="muted">Controls: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> move &middot; mouse look (click to capture) &middot;
+        <kbd>Space</kbd> up &middot; <kbd>Ctrl</kbd> down &middot; hold <kbd>Shift</kbd> faster &middot; <kbd>Esc</kbd> release mouse</p>
+      <div class="dialog-actions">
+        <a class="btn ghost" id="download-ply" href="#" download>Download .ply</a>
+        <button class="btn">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="log-dialog">
+    <form method="dialog" class="dialog wide">
+      <h2 id="log-title">Log</h2>
+      <pre id="log-text" class="log"></pre>
+      <div class="dialog-actions"><button class="btn">Close</button></div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
